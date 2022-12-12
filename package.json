@@ -6,8 +6,8 @@
   "main": "dist/main.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "build": "rollup -c rollup.config.js",
-    "watch": "rollup -c rollup.develop.config.js -w",
+    "build": "rollup -c rollup.config.mjs",
+    "watch": "rollup -c rollup.develop.config.mjs -w",
     "check-types": "npx tsc --noEmit --jsx react",
     "eslint": "eslint src/**/*.ts*",
     "eslint:fix": "eslint src/**/*.ts* --fix",
