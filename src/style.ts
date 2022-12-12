@@ -1,4 +1,4 @@
-let styleElement:HTMLStyleElement;
+let styleElement: HTMLStyleElement;
 const injectStyle = () => {
   styleElement = document.createElement("style");
   styleElement.innerHTML = `
@@ -32,8 +32,8 @@ height:100vh;
 }
 `;
   document.body.append(styleElement);
-}
+};
 const removeStyle = () => {
   styleElement.remove();
-}
-export {injectStyle,removeStyle};
+};
+export { injectStyle, removeStyle };
