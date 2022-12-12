@@ -2,6 +2,9 @@ let styleElement:HTMLStyleElement;
 const injectStyle = () => {
   styleElement = document.createElement("style");
   styleElement.innerHTML = `
+body{
+overflow: hidden;
+}
 .c-application-DesktopAppContainer__content-container{
 position:relative;
 z-index: 1000;
