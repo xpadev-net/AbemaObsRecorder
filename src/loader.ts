@@ -2,17 +2,17 @@ import { onUrlChange } from "./main";
 
 const getProgressContainer = () => {
   return new Promise<HTMLDivElement>((resolve) => {
-    const hoge = () => {
+    const tick = () => {
       const progressContainer = document.getElementsByClassName(
         "c-common-TransitionProgressContainer"
       );
       if (progressContainer && progressContainer[0]) {
         resolve(progressContainer[0] as HTMLDivElement);
       } else {
-        setTimeout(hoge, 100);
+        setTimeout(tick, 100);
       }
     };
-    hoge();
+    tick();
   });
 };
 
@@ -27,6 +27,7 @@ const init = async () => {
     }
   });
   observer.observe(progressContainer, { attributes: true });
+  onUrlChange(location.href);
 };
 void init();
 export {};
