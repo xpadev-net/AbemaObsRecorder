@@ -10,6 +10,7 @@ const prepareRecord = async () => {
   const { video, rewindButton, pauseButton, timeDisplay } =
     await getVideoElement();
   video.disablePictureInPicture = true;
+  await video.requestFullscreen();
   await sleep(2000);
   if (!video.paused) pauseButton.click();
   console.log("pause");
