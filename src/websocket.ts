@@ -1,4 +1,5 @@
 import { hash } from "./util/hash";
+import { typeGuard } from "./typeguard";
 
 const password = "abematest";
 
@@ -18,26 +19,34 @@ const connectWebsocket = () => {
 };
 
 const authentication = () => {
-  return new Promise<void>((resolve) => {
-    const authCallback = (event: MessageEvent) => {
-      const data = JSON.parse(event.data);
-      console.log(data);
-      if (data.d.authentication) {
+  return new Promise<void>((resolve, reject) => {
+    const authCallback = (event: MessageEvent<string>) => {
+      const data = JSON.parse(event.data) as unknown;
+      if (typeGuard.hello(data)) {
         const _ = JSON.stringify({
-          op: 0,
+          op: 1,
           d: {
-            obsWebSocketVersion: "5.0.1",
             rpcVersion: 1,
             authentication: hash(data.d.authentication, password),
+            eventSubscriptions: 33,
           },
         });
-        console.log(_);
         connection.send(_);
-      } else {
+      } else if (typeGuard.identified(data)) {
+        cleanup();
         resolve();
       }
     };
+    const onclose = () => {
+      cleanup();
+      reject();
+    };
+    const cleanup = () => {
+      connection.removeEventListener("message", authCallback);
+      connection.removeEventListener("close", onclose);
+    };
     connection.addEventListener("message", authCallback);
+    connection.addEventListener("close", onclose);
   });
 };
 

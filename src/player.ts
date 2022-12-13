@@ -13,7 +13,7 @@ const getVideoElement = () => {
       const videos = Array.from(document.getElementsByTagName("video")).filter(
         (video) => !!video.src
       );
-      if (videos.length === 1) {
+      if (videos[0]) {
         video = videos[0];
       }
       const rewindButtons = document.getElementsByClassName(

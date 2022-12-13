@@ -22,8 +22,8 @@ let url = location.href;
 const init = async () => {
   const connection = await connectWebsocket();
   await authentication();
-  connection.onmessage = (event) => {
-    const data = JSON.parse(event.data);
+  connection.onmessage = (event: MessageEvent<string>) => {
+    const data = JSON.parse(event.data) as unknown;
     console.log(data);
   };
   const progressContainer = await getProgressContainer();
