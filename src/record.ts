@@ -29,6 +29,7 @@ const prepareRecord = async () => {
   await waitVideoLoad(video);
   console.log("loaded");
   await sleep(1000);
+
   pauseButton.click();
 };
 export { record };

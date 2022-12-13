@@ -23,7 +23,7 @@ const authentication = () => {
     const authCallback = (event: MessageEvent<string>) => {
       const data = JSON.parse(event.data) as unknown;
       if (typeGuard.hello(data)) {
-        const _ = JSON.stringify({
+        send({
           op: 1,
           d: {
             rpcVersion: 1,
@@ -31,7 +31,6 @@ const authentication = () => {
             eventSubscriptions: 33,
           },
         });
-        connection.send(_);
       } else if (typeGuard.identified(data)) {
         cleanup();
         resolve();
@@ -50,4 +49,11 @@ const authentication = () => {
   });
 };
 
-export { connectWebsocket, authentication };
+const recordStart = () => {
+  send({});
+};
+const send = (message: unknown) => {
+  connection.send(JSON.stringify(message));
+};
+
+export { connectWebsocket, authentication, recordStart };
