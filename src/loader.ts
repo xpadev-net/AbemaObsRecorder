@@ -1,4 +1,5 @@
 import { onUrlChange } from "./main";
+import { authentication, connectWebsocket } from "./websocket";
 
 const getProgressContainer = () => {
   return new Promise<HTMLDivElement>((resolve) => {
@@ -19,6 +20,12 @@ const getProgressContainer = () => {
 let url = location.href;
 
 const init = async () => {
+  const connection = await connectWebsocket();
+  await authentication();
+  connection.onmessage = (event) => {
+    const data = JSON.parse(event.data);
+    console.log(data);
+  };
   const progressContainer = await getProgressContainer();
   const observer = new MutationObserver(() => {
     if (url !== location.href) {
