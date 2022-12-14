@@ -1,5 +1,6 @@
 import { injectStyle, removeStyle } from "@/front/style";
 import { record } from "@/front/record";
+import { complete, getQueueUrl } from "@/front/ipc";
 
 let inPlayer = false;
 const onUrlChange = async (current: string) => {
@@ -15,6 +16,8 @@ const onUrlChange = async (current: string) => {
     }
     if (url && url[1]) {
       await record(url[1]);
+      await complete();
+      location.href = await getQueueUrl();
     }
   } else {
     if (inPlayer) {

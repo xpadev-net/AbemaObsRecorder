@@ -1,5 +1,6 @@
 import { onUrlChange } from "@/front/main";
 import { authentication, connectWebsocket } from "@/front/websocket";
+import { getQueueUrl } from "@/front/ipc";
 
 const getProgressContainer = () => {
   return new Promise<HTMLDivElement>((resolve) => {
@@ -20,6 +21,12 @@ const getProgressContainer = () => {
 let url = location.href;
 
 const init = async () => {
+  const queueUrl = await getQueueUrl();
+  if (url !== queueUrl) {
+    location.href = queueUrl;
+    return;
+  }
+
   const connection = await connectWebsocket();
   await authentication();
   connection.onmessage = (event: MessageEvent<string>) => {
@@ -37,4 +44,3 @@ const init = async () => {
   await onUrlChange(location.href);
 };
 void init();
-export {};

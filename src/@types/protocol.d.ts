@@ -47,3 +47,8 @@ type pStopRecordResponse = {
     };
   };
 };
+
+type Message = {
+  type: string;
+  value?: string;
+};
