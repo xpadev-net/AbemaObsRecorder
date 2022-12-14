@@ -25,44 +25,74 @@ const banner = `// ==UserScript==
   Released under the ${pkg.license} License.
 */`;
 
-export default {
-	input: 'src/loader.ts',
-	output: {
-		file: `dist/AbemaObsRecorder.user.js`,
-		format: 'umd',
-		name: 'AbemaObsRecorder',
-		banner
-	},
-	plugins: [
-		typescript(),
-		image(),
-		postcss({
-			extensions: [".css"],
-			modules: true,
-		}),
-		nodeResolve({
-			extensions: [".js"],
-		}),
-		replace({
-			preventAssignment: true,
-			'process.env.NODE_ENV': JSON.stringify('development'),
-			'RELEASE_VER': `ver ${pkg.version}`,
-		}),
-		babel({
-			presets: ["@babel/preset-react"],
-		}),
-		commonjs(),
-		serve({
-			verbose: true,
-			contentBase: ["", "public"],
-			host: "localhost",
-			port: 3000,
-			headers: {
-				"Access-Control-Allow-Origin": "https://abema.tv",
-				"Access-Control-Allow-Credentials": "true",
-				"Access-Control-Allow-Headers": "Content-Type, Authorization, x-id, Content-Length, X-Requested-With",
-				"Access-Control-Allow-Methods": "GET, POST, PUT, DELETE, OPTIONS"
-			},
-		})
-	]
-}
+export default [
+	{
+		input: 'src/front/loader.ts',
+		output: {
+			file: `dist/AbemaObsRecorder.user.js`,
+			format: 'umd',
+			name: 'AbemaObsRecorder',
+			banner
+		},
+		plugins: [
+			typescript(),
+			image(),
+			postcss({
+				extensions: [".css"],
+				modules: true,
+			}),
+			nodeResolve({
+				extensions: [".js"],
+			}),
+			replace({
+				preventAssignment: true,
+				'process.env.NODE_ENV': JSON.stringify('development'),
+				'RELEASE_VER': `ver ${pkg.version}`,
+			}),
+			babel({
+				presets: ["@babel/preset-react"],
+			}),
+			commonjs(),
+			serve({
+				verbose: true,
+				contentBase: ["", "public"],
+				host: "localhost",
+				port: 3000,
+				headers: {
+					"Access-Control-Allow-Origin": "https://abema.tv",
+					"Access-Control-Allow-Credentials": "true",
+					"Access-Control-Allow-Headers": "Content-Type, Authorization, x-id, Content-Length, X-Requested-With",
+					"Access-Control-Allow-Methods": "GET, POST, PUT, DELETE, OPTIONS"
+				},
+			})
+		]
+	},{
+		input: 'src/back/main.ts',
+		output: {
+			file: `dist/backend.user.js`,
+			format: 'umd',
+			name: 'AbemaObsRecorder',
+			banner
+		},
+		plugins: [
+			typescript(),
+			image(),
+			postcss({
+				extensions: [".css"],
+				modules: true,
+			}),
+			nodeResolve({
+				extensions: [".js"],
+			}),
+			replace({
+				preventAssignment: true,
+				'process.env.NODE_ENV': JSON.stringify('development'),
+				'RELEASE_VER': `ver ${pkg.version}`,
+			}),
+			babel({
+				presets: ["@babel/preset-react"],
+			}),
+			commonjs()
+		]
+	}
+]

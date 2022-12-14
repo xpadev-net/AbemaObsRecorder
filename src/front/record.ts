@@ -3,9 +3,9 @@ import {
   waitVideoEnd,
   waitVideoLoad,
   waitVideoStart,
-} from "./player";
-import { sleep } from "./util/sleep";
-import { recordStart, recordStop } from "@/websocket";
+} from "@/front/player";
+import { sleep } from "@/util/sleep";
+import { recordStart, recordStop } from "@/front/websocket";
 
 const record = async (url: string) => {
   const {

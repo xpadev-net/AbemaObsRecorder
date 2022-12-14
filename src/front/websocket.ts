@@ -1,5 +1,5 @@
-import { hash } from "./util/hash";
-import { typeGuard } from "./typeguard";
+import { hash } from "@/util/hash";
+import { typeGuard } from "@/front/typeguard";
 import { generateUuid } from "@/util/uuid";
 
 const password = "abematest";

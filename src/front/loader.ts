@@ -1,5 +1,5 @@
-import { onUrlChange } from "./main";
-import { authentication, connectWebsocket } from "./websocket";
+import { onUrlChange } from "@/front/main";
+import { authentication, connectWebsocket } from "@/front/websocket";
 
 const getProgressContainer = () => {
   return new Promise<HTMLDivElement>((resolve) => {
@@ -30,11 +30,11 @@ const init = async () => {
   const observer = new MutationObserver(() => {
     if (url !== location.href) {
       url = location.href;
-      onUrlChange(url);
+      void onUrlChange(url);
     }
   });
   observer.observe(progressContainer, { attributes: true });
-  onUrlChange(location.href);
+  await onUrlChange(location.href);
 };
 void init();
 export {};

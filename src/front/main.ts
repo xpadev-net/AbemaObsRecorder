@@ -1,5 +1,5 @@
-import { injectStyle, removeStyle } from "./style";
-import { record } from "./record";
+import { injectStyle, removeStyle } from "@/front/style";
+import { record } from "@/front/record";
 
 let inPlayer = false;
 const onUrlChange = async (current: string) => {
