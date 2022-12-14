@@ -1,5 +1,6 @@
 import { hash } from "./util/hash";
 import { typeGuard } from "./typeguard";
+import { generateUuid } from "@/util/uuid";
 
 const password = "abematest";
 
@@ -50,10 +51,64 @@ const authentication = () => {
 };
 
 const recordStart = () => {
-  send({});
+  return new Promise<void>((resolve, reject) => {
+    const uuid = generateUuid();
+    const handler = (event: MessageEvent<string>) => {
+      const data = JSON.parse(event.data) as unknown;
+      connection.removeEventListener("message", handler);
+      if (
+        typeGuard.StartRecordResponse(data) &&
+        data.d.requestId === uuid &&
+        data.d.requestStatus.result
+      ) {
+        resolve();
+      } else {
+        reject();
+      }
+    };
+    connection.addEventListener("message", handler);
+    send({
+      op: 6,
+      d: {
+        requestType: "StartRecord",
+        requestId: uuid,
+      },
+    });
+  });
+};
+const recordStop = (url: string) => {
+  return new Promise<void>((resolve, reject) => {
+    const uuid = generateUuid();
+    const handler = (event: MessageEvent<string>) => {
+      const data = JSON.parse(event.data) as unknown;
+      connection.removeEventListener("message", handler);
+      console.log(data);
+      if (
+        typeGuard.StopRecordResponse(data) &&
+        data.d.requestId === uuid &&
+        data.d.requestStatus.result
+      ) {
+        resolve();
+      } else {
+        reject();
+      }
+    };
+    connection.addEventListener("message", handler);
+    send({
+      op: 6,
+      d: {
+        requestType: "StopRecord",
+        requestId: uuid,
+        requestData: {
+          outputPath: `${url}`,
+        },
+      },
+    });
+  });
 };
 const send = (message: unknown) => {
+  console.log(message);
   connection.send(JSON.stringify(message));
 };
 
-export { connectWebsocket, authentication, recordStart };
+export { connectWebsocket, authentication, recordStart, recordStop };

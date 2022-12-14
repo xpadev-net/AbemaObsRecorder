@@ -3,18 +3,18 @@ import { record } from "./record";
 
 let inPlayer = false;
 const onUrlChange = (current: string) => {
-  console.log(current);
+  let url;
   if (
-    current.match(
-      /^https:\/\/abema\.tv\/video\/episode\/[0-9a-zA-Z]+-[0-9]+_s[0-9]+_p[1-9][0-9]*/
-    )
+    (url = current.match(
+      /^https:\/\/abema\.tv\/video\/episode\/([0-9a-zA-Z]+-[0-9]+_s[0-9]+_p[1-9][0-9]*)/
+    ))
   ) {
     if (!inPlayer) {
       inPlayer = true;
       injectStyle();
-      void record();
-      console.log("enter");
     }
+    console.log("enter");
+    if (url && url[1]) void record(url[1]);
   } else {
     if (inPlayer) {
       inPlayer = false;
