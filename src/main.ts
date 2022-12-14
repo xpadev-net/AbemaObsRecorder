@@ -2,7 +2,7 @@ import { injectStyle, removeStyle } from "./style";
 import { record } from "./record";
 
 let inPlayer = false;
-const onUrlChange = (current: string) => {
+const onUrlChange = async (current: string) => {
   let url;
   if (
     (url = current.match(
@@ -13,8 +13,9 @@ const onUrlChange = (current: string) => {
       inPlayer = true;
       injectStyle();
     }
-    console.log("enter");
-    if (url && url[1]) void record(url[1]);
+    if (url && url[1]) {
+      await record(url[1]);
+    }
   } else {
     if (inPlayer) {
       inPlayer = false;
