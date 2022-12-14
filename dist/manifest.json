@@ -1,0 +1,14 @@
+{
+  "manifest_version": 2,
+  "name": "AbemaObsRecorder",
+  "description": "AbemaObsRecorder",
+  "version": "0.0.1",
+  "content_scripts": [{
+    "matches": ["*://abema.tv/*"],
+    "js": ["AbemaObsRecorder.user.js"],
+    "run_at": "document_end"
+  }],
+  "background": {
+    "scripts": ["backend.user.js"]
+  }
+}
